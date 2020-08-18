@@ -1000,7 +1000,10 @@ void MainWindow::setOnTop(bool top) {
 			wf |= Qt::WindowStaysOnTopHint;
 		else
 			wf &= ~Qt::WindowStaysOnTopHint;
+        wf |= Qt::FramelessWindowHint;
 		setWindowFlags(wf);
+
+        setAttribute(Qt::WA_TranslucentBackground);
 		show();
 	}
 }
@@ -1064,9 +1067,12 @@ void MainWindow::setupView(bool toggle_minimize) {
 	        (!g.s.bMinimalView && g.s.aotbAlwaysOnTop == Settings::OnTopInNormal)) {
 		f |= Qt::WindowStaysOnTopHint;
 	}
-
+    f |= Qt::FramelessWindowHint;
 	if (! graphicsProxyWidget())
 		setWindowFlags(f);
+
+    setAttribute(Qt::WA_TranslucentBackground);
+
 
 	if (g.s.bShowContextMenuInMenuBar) {
 		bool found = false;
