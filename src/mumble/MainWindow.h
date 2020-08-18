@@ -172,6 +172,7 @@ class MainWindow : public QMainWindow, public MessageHandler, public Ui::MainWin
 		void showEvent(QShowEvent *e) Q_DECL_OVERRIDE;
 		void changeEvent(QEvent* e) Q_DECL_OVERRIDE;
 		void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
+        void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE {}
 
 		QMenu *createPopupMenu() Q_DECL_OVERRIDE;
 
