@@ -8,11 +8,11 @@ set(GRPC_FILE "${CMAKE_CURRENT_SOURCE_DIR}/Mumble.proto")
 option(client "Build the client (Mumble)" ON)
 option(server "Build the server (Murmur)" ON)
 
-option(qssldiffiehellmanparameters "Build support for custom Diffie-Hellman parameters." ON)
+option(qssldiffiehellmanparameters "Build support for custom Diffie-Hellman parameters." OFF)
 
-option(bonjour "Build support for Bonjour." ON)
+option(bonjour "Build support for Bonjour." OFF)
 
-option(dbus "Build support for DBus." ON)
+option(dbus "Build support for DBus." OFF)
 
 find_pkg(Qt5
 	COMPONENTS

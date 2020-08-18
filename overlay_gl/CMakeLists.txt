@@ -6,7 +6,7 @@
 # Overlay payload for UNIX-like systems.
 
 if(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64" OR ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "amd64")
-	option(overlay-xcompile "Build 32 bit overlay library, necessary for the overlay to work with 32 bit processes." ON)
+        option(overlay-xcompile "Build 32 bit overlay library, necessary for the overlay to work with 32 bit processes." OFF)
 endif()
 
 add_library(overlay_gl SHARED "overlay.c")

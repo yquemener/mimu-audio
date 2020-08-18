@@ -14,7 +14,7 @@ include(qt-utils)
 
 option(update "Check for updates by default." ON)
 
-option(translations "Include languages other than English." ON)
+option(translations "Include languages other than English." OFF)
 
 option(classic-theme "Include the classic theme." ON)
 
@@ -43,7 +43,7 @@ elseif(UNIX)
 	elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 		option(alsa "Build support for ALSA." ON)
 		option(pulseaudio "Build support for PulseAudio." ON)
-		option(speechd "Build support for Speech Dispatcher." ON)
+                option(speechd "Build support for Speech Dispatcher." OFF)
 		option(xinput2 "Build support for XI2" ON)
 	endif()
 endif()

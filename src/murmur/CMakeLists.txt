@@ -12,7 +12,7 @@ set(ICE_FILE "${CMAKE_CURRENT_SOURCE_DIR}/Murmur.ice")
 include(qt-utils)
 
 option(grpc "Build support for gRPC." OFF)
-option(ice "Build support for Ice RPC." ON)
+option(ice "Build support for Ice RPC." OFF)
 
 find_pkg(Qt5 COMPONENTS Sql REQUIRED)
 

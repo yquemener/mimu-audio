@@ -43,9 +43,9 @@ option(warnings-as-errors "All warnings are treated as errors." OFF)
 
 option(dpkg-buildflags "Add CFLAGS, CXXFLAGS, CPPFLAGS and LDFLAGS from dpkg-buildflags to the build flags." OFF)
 
-option(overlay "Build overlay." ON)
+option(overlay "Build overlay." OFF)
 option(packaging "Build package." OFF)
-option(plugins "Build plugins." ON)
+option(plugins "Build plugins." OFF)
 
 # We support the "Debug" and "Release" configurations.
 set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
