@@ -1,9 +1,0 @@
-QWidget {
-	font: normal 200% Tahoma, Arial, Sans-serif;
-	color: #fff;
-	background: #88000088;
-}
-
-QMainWindow, QDialog {
-	background: #88000088;
-}
