@@ -6,7 +6,7 @@
 set(GRPC_FILE "${CMAKE_CURRENT_SOURCE_DIR}/Mumble.proto")
 
 option(client "Build the client (Mumble)" ON)
-option(server "Build the server (Murmur)" ON)
+option(server "Build the server (Murmur)" OFF)
 
 option(qssldiffiehellmanparameters "Build support for custom Diffie-Hellman parameters." OFF)
 
@@ -23,10 +23,10 @@ find_pkg(Qt5
 )
 
 find_pkg(OpenSSL
-	COMPONENTS
-		Crypto
-		SSL
-	REQUIRED
+        COMPONENTS
+                Crypto
+                SSL
+        REQUIRED
 )
 
 find_pkg(Protobuf REQUIRED)

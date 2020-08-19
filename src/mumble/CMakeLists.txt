@@ -12,7 +12,7 @@ set(MUMBLE_ICNS "${CMAKE_SOURCE_DIR}/icons/mumble.icns")
 
 include(qt-utils)
 
-option(update "Check for updates by default." ON)
+option(update "Check for updates by default." OFF)
 
 option(translations "Include languages other than English." OFF)
 
@@ -53,7 +53,7 @@ if(NOT APPLE)
 endif()
 
 if(WIN32 OR APPLE)
-	option(crash-report "Include support for reporting crashes to the Mumble developers." ON)
+        option(crash-report "Include support for reporting crashes to the Mumble developers." OFF)
 endif()
 
 if(MSVC)
@@ -321,6 +321,25 @@ elseif(TARGET sndfile)
 else()
 	target_link_libraries(mumble PRIVATE ${sndfile_LIBRARIES})
 endif()
+
+
+#message("SNDFILE libs:${sndfile_FOUND}")
+#message("SNDFILE libs:${LibSndFile_FOUND}")
+#message("SNDFILE libs:${sndfile_LIBRARIES}")
+
+if(LibSndFile_FOUND)
+    # VCPKG just sucks... (or I am not understanding it well)
+    target_link_libraries(mumble PRIVATE E:/softs/vcpkg/installed/x64-windows/lib/libsndfile-1.lib)
+
+endif()
+
+
+# get_cmake_property(_variableNames VARIABLES)
+# list (SORT _variableNames)
+# foreach (_variableName ${_variableNames})
+#    message(STATUS "${_variableName}=${${_variableName}}")
+#endforeach()
+
 
 target_link_libraries(mumble
 	PRIVATE

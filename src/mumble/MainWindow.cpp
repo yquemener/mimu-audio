@@ -1000,10 +1000,11 @@ void MainWindow::setOnTop(bool top) {
 			wf |= Qt::WindowStaysOnTopHint;
 		else
 			wf &= ~Qt::WindowStaysOnTopHint;
-        wf |= Qt::FramelessWindowHint;// | Qt::MSWindowsFixedSizeDialogHint | Qt::X11BypassWindowManagerHint;
+//        wf |= Qt::FramelessWindowHint;// | Qt::MSWindowsFixedSizeDialogHint | Qt::X11BypassWindowManagerHint;
 		setWindowFlags(wf);
 
         setAttribute(Qt::WA_TranslucentBackground);
+        //setAttribute(Qt::WA_NoSystemBackground);
 		show();
 	}
 }
@@ -1055,8 +1056,8 @@ void MainWindow::setupView(bool toggle_minimize) {
 		}
 	}
 
-//	Qt::WindowFlags f = Qt::Window;
-    Qt::WindowFlags f = Qt::ToolTip;
+    Qt::WindowFlags f = Qt::Window;
+//    Qt::WindowFlags f = Qt::ToolTip;
 	if (!showit) {
 		if (g.s.bHideFrame) {
             f |= Qt::FramelessWindowHint;
@@ -1068,11 +1069,12 @@ void MainWindow::setupView(bool toggle_minimize) {
 	        (!g.s.bMinimalView && g.s.aotbAlwaysOnTop == Settings::OnTopInNormal)) {
 		f |= Qt::WindowStaysOnTopHint;
 	}
-    f |= Qt::FramelessWindowHint;// | Qt::MSWindowsFixedSizeDialogHint | Qt::X11BypassWindowManagerHint;
+//    f |= Qt::FramelessWindowHint;// | Qt::MSWindowsFixedSizeDialogHint | Qt::X11BypassWindowManagerHint;
 
 	if (! graphicsProxyWidget())
 		setWindowFlags(f);
 
+    //setAttribute(Qt::WA_NoSystemBackground);
     setAttribute(Qt::WA_TranslucentBackground);
 
 
