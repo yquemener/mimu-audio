@@ -42,59 +42,6 @@
     <bool>false</bool>
    </attribute>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>671</width>
-     <height>30</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="qmConfig">
-    <property name="title">
-     <string>C&amp;onfigure</string>
-    </property>
-    <addaction name="qaConfigDialog"/>
-   </widget>
-   <widget class="QMenu" name="qmHelp">
-    <property name="title">
-     <string>&amp;Help</string>
-    </property>
-    <addaction name="qaHelpWhatsThis"/>
-    <addaction name="separator"/>
-    <addaction name="qaHelpAbout"/>
-    <addaction name="qaHelpAboutQt"/>
-    <addaction name="separator"/>
-    <addaction name="qaHelpVersionCheck"/>
-   </widget>
-   <widget class="QMenu" name="qmServer">
-    <property name="title">
-     <string>S&amp;erver</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="qmSelf">
-    <property name="title">
-     <string>&amp;Self</string>
-    </property>
-    <addaction name="qaAudioMute"/>
-    <addaction name="qaAudioDeaf"/>
-    <addaction name="qaSelfPrioritySpeaker"/>
-    <addaction name="separator"/>
-    <addaction name="qaRecording"/>
-    <addaction name="separator"/>
-    <addaction name="qaSelfComment"/>
-    <addaction name="qaServerTexture"/>
-    <addaction name="qaServerTextureRemove"/>
-    <addaction name="separator"/>
-    <addaction name="qaSelfRegister"/>
-    <addaction name="qaAudioStats"/>
-   </widget>
-   <addaction name="qmServer"/>
-   <addaction name="qmSelf"/>
-   <addaction name="qmConfig"/>
-   <addaction name="qmHelp"/>
-  </widget>
   <widget class="QDockWidget" name="qdwLog">
    <property name="minimumSize">
     <size>
@@ -162,6 +109,59 @@
      <bool>false</bool>
     </property>
    </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>671</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="qmConfig">
+    <property name="title">
+     <string>C&amp;onfigure</string>
+    </property>
+    <addaction name="qaConfigDialog"/>
+   </widget>
+   <widget class="QMenu" name="qmServer">
+    <property name="title">
+     <string>S&amp;erver</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="qmSelf">
+    <property name="title">
+     <string>&amp;Self</string>
+    </property>
+    <addaction name="qaAudioMute"/>
+    <addaction name="qaAudioDeaf"/>
+    <addaction name="qaSelfPrioritySpeaker"/>
+    <addaction name="separator"/>
+    <addaction name="qaRecording"/>
+    <addaction name="separator"/>
+    <addaction name="qaSelfComment"/>
+    <addaction name="qaServerTexture"/>
+    <addaction name="qaServerTextureRemove"/>
+    <addaction name="separator"/>
+    <addaction name="qaSelfRegister"/>
+    <addaction name="qaAudioStats"/>
+   </widget>
+   <widget class="QMenu" name="qmHelp">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="qaHelpWhatsThis"/>
+    <addaction name="separator"/>
+    <addaction name="qaHelpAbout"/>
+    <addaction name="qaHelpAboutQt"/>
+    <addaction name="separator"/>
+    <addaction name="qaHelpVersionCheck"/>
+   </widget>
+   <addaction name="qmServer"/>
+   <addaction name="qmSelf"/>
+   <addaction name="qmConfig"/>
+   <addaction name="qmHelp"/>
   </widget>
   <widget class="QToolBar" name="qtIconToolbar">
    <property name="windowTitle">

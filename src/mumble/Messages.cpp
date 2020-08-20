@@ -129,7 +129,7 @@ void MainWindow::msgServerSync(const MumbleProto::ServerSync &msg) {
 	g.sh->sendPing(); // Send initial ping to establish UDP connection
 
 	g.pPermissions = ChanACL::Permissions(static_cast<unsigned int>(msg.permissions()));
-	g.l->clearIgnore();
+    //g.l->clearIgnore();
 	if (msg.has_welcome_text()) {
 		QString str = u8(msg.welcome_text());
 		if (!str.isEmpty()) {

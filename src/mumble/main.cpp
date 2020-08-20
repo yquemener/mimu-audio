@@ -496,6 +496,7 @@ int main(int argc, char **argv) {
 	// point, use Log::logOrDefer()
 	g.l = new Log();
 	g.l->processDeferredLogs();
+    g.l->setIgnore(Log::Information);
 
 #ifdef Q_OS_WIN
 	// Set mumble_mw_hwnd in os_win.cpp.

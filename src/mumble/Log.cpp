@@ -504,7 +504,8 @@ void Log::log(MsgType mt, const QString &console, const QString &terse, bool own
 		return;
 	}
 
-	QString plain = QTextDocumentFragment::fromHtml(console).toPlainText();
+    QString console2 = console; // + QString(" -> ") + QString::number((int)(mt)) + QString::number((int)(Log::Information));
+    QString plain = QTextDocumentFragment::fromHtml(console2).toPlainText();
 
 	quint32 flags = g.s.qmMessages.value(mt);
 
@@ -559,7 +560,7 @@ void Log::log(MsgType mt, const QString &console, const QString &terse, bool own
 		const QString timeString = dt.time().toString(QLatin1String(g.s.bLog24HourClock ? "HH:mm:ss" : "hh:mm:ss AP"));
 		tc.insertHtml(Log::msgColor(QString::fromLatin1("[%1] ").arg(timeString.toHtmlEscaped()), Log::Time));
 
-		validHtml(console, &tc);
+        validHtml(console2, &tc);
 		tc.movePosition(QTextCursor::End);
 		g.mw->qteLog->setTextCursor(tc);
 

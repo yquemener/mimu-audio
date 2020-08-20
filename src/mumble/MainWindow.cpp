@@ -148,11 +148,11 @@ MainWindow::MainWindow(QWidget *p) : QMainWindow(p) {
 	qtReconnect->setSingleShot(true);
 	qtReconnect->setObjectName(QLatin1String("Reconnect"));
 
-	qmUser = new QMenu(tr("&User"), this);
-	qmChannel = new QMenu(tr("&Channel"), this);
-	qmListener = new QMenu(tr("&Listener"), this);
+    qmUser = new QMenu(tr("&User"), this);
+    qmChannel = new QMenu(tr("&Channel"), this);
+    qmListener = new QMenu(tr("&Listener"), this);
 
-	qmDeveloper = new QMenu(tr("&Developer"), this);
+    qmDeveloper = new QMenu(tr("&Developer"), this);
 
 	qaEmpty = new QAction(tr("No action available..."), this);
 	qaEmpty->setEnabled(false);
@@ -163,10 +163,10 @@ MainWindow::MainWindow(QWidget *p) : QMainWindow(p) {
 	qtvUsers->setAccessibleName(tr("Channels and users"));
 	qteLog->setAccessibleName(tr("Activity log"));
 	qteChat->setAccessibleName(tr("Chat message"));
-	connect(qmUser, SIGNAL(aboutToShow()), this, SLOT(qmUser_aboutToShow()));
-	connect(qmChannel, SIGNAL(aboutToShow()), this, SLOT(qmChannel_aboutToShow()));
-	connect(qmListener, SIGNAL(aboutToShow()), this, SLOT(qmListener_aboutToShow()));
-	connect(qteChat, SIGNAL(entered(QString)), this, SLOT(sendChatbarText(QString)));
+    connect(qmUser, SIGNAL(aboutToShow()), this, SLOT(qmUser_aboutToShow()));
+    connect(qmChannel, SIGNAL(aboutToShow()), this, SLOT(qmChannel_aboutToShow()));
+    connect(qmListener, SIGNAL(aboutToShow()), this, SLOT(qmListener_aboutToShow()));
+    connect(qteChat, SIGNAL(entered(QString)), this, SLOT(sendChatbarText(QString)));
 	connect(qteChat, SIGNAL(pastedImage(QString)), this, SLOT(sendChatbarMessage(QString)));
 
 	// Tray
@@ -182,11 +182,11 @@ MainWindow::MainWindow(QWidget *p) : QMainWindow(p) {
 	qmChannel_aboutToShow();
 	qmUser_aboutToShow();
 	on_qmConfig_aboutToShow();
-	qmDeveloper->addAction(qaDeveloperConsole);
+    qmDeveloper->addAction(qaDeveloperConsole);
 
 	setOnTop(g.s.aotbAlwaysOnTop == Settings::OnTopAlways ||
 	         (g.s.bMinimalView && g.s.aotbAlwaysOnTop == Settings::OnTopInMinimal) ||
-	         (!g.s.bMinimalView && g.s.aotbAlwaysOnTop == Settings::OnTopInNormal));
+             (!g.s.bMinimalView && g.s.aotbAlwaysOnTop == Settings::OnTopInNormal));
 }
 
 void MainWindow::createActions() {
@@ -275,7 +275,8 @@ void MainWindow::createActions() {
 
 void MainWindow::setupGui()  {
 	updateWindowTitle();
-	setCentralWidget(qtvUsers);
+    //setCentralWidget(qtvUsers);
+    qtvUsers->setVisible(false);
 	setAcceptDrops(true);
 
 #ifdef Q_OS_MAC
@@ -352,19 +353,20 @@ void MainWindow::setupGui()  {
 
 	// QtCreator and uic.exe do not allow adding arbitrary widgets
 	// such as a MUComboBox to a QToolbar, even though they are supported.
-	qcbTransmitMode = new MUComboBox(qtIconToolbar);
-	qcbTransmitMode->setObjectName(QLatin1String("qcbTransmitMode"));
-	qcbTransmitMode->addItem(tr("Continuous"));
-	qcbTransmitMode->addItem(tr("Voice Activity"));
-	qcbTransmitMode->addItem(tr("Push-to-Talk"));
+    qcbTransmitMode = new MUComboBox(qtIconToolbar);
+    qcbTransmitMode->setObjectName(QLatin1String("qcbTransmitMode"));
+    qcbTransmitMode->addItem(tr("Continuous"));
+    qcbTransmitMode->addItem(tr("Voice Activity"));
+    qcbTransmitMode->addItem(tr("Push-to-Talk"));
 
-	qaTransmitModeSeparator = qtIconToolbar->insertSeparator(qaConfigDialog);
-	qaTransmitMode = qtIconToolbar->insertWidget(qaTransmitModeSeparator, qcbTransmitMode);
+    qaTransmitModeSeparator = qtIconToolbar->insertSeparator(qaConfigDialog);
+    qaTransmitMode = qtIconToolbar->insertWidget(qaTransmitModeSeparator, qcbTransmitMode);
 
-	connect(qcbTransmitMode, SIGNAL(activated(int)),
-	        this, SLOT(qcbTransmitMode_activated(int)));
+    connect(qcbTransmitMode, SIGNAL(activated(int)),
+            this, SLOT(qcbTransmitMode_activated(int)));
 
-	updateTransmitModeComboBox();
+    updateTransmitModeComboBox();
+    qtIconToolbar->setVisible(false);
 
 #ifdef Q_OS_WIN
 	setupView(false);
@@ -410,17 +412,18 @@ void MainWindow::updateWindowTitle() {
 }
 
 void MainWindow::updateToolbar() {
-	bool layoutIsCustom = g.s.wlWindowLayout == Settings::LayoutCustom;
-	qtIconToolbar->setMovable(layoutIsCustom && !g.s.bLockLayout);
+    bool layoutIsCustom = g.s.wlWindowLayout == Settings::LayoutCustom;
+    qtIconToolbar->setMovable(layoutIsCustom && !g.s.bLockLayout);
 
-	// Update the toolbar so the movable flag takes effect.
-	if (layoutIsCustom) {
-		// Update the toolbar, but keep it in place.
-		addToolBar(toolBarArea(qtIconToolbar), qtIconToolbar);
-	} else {
-		// Update the toolbar, and ensure it is at the top of the window.
-		addToolBar(Qt::TopToolBarArea, qtIconToolbar);
-	}
+    // Update the toolbar so the movable flag takes effect.
+    if (layoutIsCustom) {
+        // Update the toolbar, but keep it in place.
+        addToolBar(toolBarArea(qtIconToolbar), qtIconToolbar);
+    } else {
+        // Update the toolbar, and ensure it is at the top of the window.
+        addToolBar(Qt::TopToolBarArea, qtIconToolbar);
+    }
+    qtIconToolbar->setVisible(false);
 }
 
 // Sets whether or not to show the title bars on the MainWindow's
@@ -1000,7 +1003,7 @@ void MainWindow::setOnTop(bool top) {
 			wf |= Qt::WindowStaysOnTopHint;
 		else
 			wf &= ~Qt::WindowStaysOnTopHint;
-//        wf |= Qt::FramelessWindowHint;// | Qt::MSWindowsFixedSizeDialogHint | Qt::X11BypassWindowManagerHint;
+        wf |= Qt::FramelessWindowHint;// | Qt::MSWindowsFixedSizeDialogHint | Qt::X11BypassWindowManagerHint;
 		setWindowFlags(wf);
 
         setAttribute(Qt::WA_TranslucentBackground);
@@ -1056,8 +1059,8 @@ void MainWindow::setupView(bool toggle_minimize) {
 		}
 	}
 
-    Qt::WindowFlags f = Qt::Window;
-//    Qt::WindowFlags f = Qt::ToolTip;
+//    Qt::WindowFlags f = Qt::Window;
+    Qt::WindowFlags f = Qt::ToolTip;
 	if (!showit) {
 		if (g.s.bHideFrame) {
             f |= Qt::FramelessWindowHint;
@@ -1069,7 +1072,7 @@ void MainWindow::setupView(bool toggle_minimize) {
 	        (!g.s.bMinimalView && g.s.aotbAlwaysOnTop == Settings::OnTopInNormal)) {
 		f |= Qt::WindowStaysOnTopHint;
 	}
-//    f |= Qt::FramelessWindowHint;// | Qt::MSWindowsFixedSizeDialogHint | Qt::X11BypassWindowManagerHint;
+    f |= Qt::FramelessWindowHint;// | Qt::MSWindowsFixedSizeDialogHint | Qt::X11BypassWindowManagerHint;
 
 	if (! graphicsProxyWidget())
 		setWindowFlags(f);
@@ -1115,9 +1118,10 @@ void MainWindow::setupView(bool toggle_minimize) {
 	if (! showit) {
 		qdwLog->setVisible(showit);
 		qdwChat->setVisible(showit);
-		qtIconToolbar->setVisible(showit);
+        qtIconToolbar->setVisible(showit);
 	}
-	menuBar()->setVisible(showit);
+//	menuBar()->setVisible(showit);
+    menuBar()->setVisible(false);
 
 	if (toggle_minimize) {
 		if (! showit) {
@@ -3064,7 +3068,8 @@ void MainWindow::serverConnected() {
 
 	g.l->clearIgnore();
 	g.l->setIgnore(Log::UserJoin);
-	g.l->setIgnore(Log::OtherSelfMute);
+    g.l->setIgnore(Log::OtherSelfMute);
+    g.l->setIgnore(Log::Information);
 	QString host, uname, pw;
 	unsigned short port;
 	g.sh->getConnectionInfo(host, port, uname, pw);
