@@ -259,7 +259,7 @@ int main(int argc, char **argv) {
 			} else if (args.at(i) == QLatin1String("rpc")) {
 				bRpcMode = true;
 				if (args.count() - 1 > i) {
-					rpcCommand = QString(args.at(i + 1));
+                    rpcCommand = args.mid(i + 1).join(" ");
 				}
 				else {
 					QString rpcError = MainWindow::tr("Error: No RPC command specified");
@@ -320,7 +320,8 @@ int main(int argc, char **argv) {
 		bool sent = false;
 		QMap<QString, QVariant> param;
 		param.insert(rpcCommand, rpcCommand);
-		sent = SocketRPC::send(QLatin1String("Mumble"), QLatin1String("self"), param);
+        //sent = SocketRPC::send(QLatin1String("Mumble"), QLatin1String("self"), param);
+        sent = SocketRPC::send(QLatin1String("Mumble"), rpcCommand, param);
 		if (sent) {
 			return 0;
 		} else {

@@ -1059,8 +1059,8 @@ void MainWindow::setupView(bool toggle_minimize) {
 		}
 	}
 
-//    Qt::WindowFlags f = Qt::Window;
-    Qt::WindowFlags f = Qt::ToolTip;
+    Qt::WindowFlags f = Qt::Window;
+//    Qt::WindowFlags f = Qt::ToolTip;
 	if (!showit) {
 		if (g.s.bHideFrame) {
             f |= Qt::FramelessWindowHint;
@@ -1120,8 +1120,8 @@ void MainWindow::setupView(bool toggle_minimize) {
 		qdwChat->setVisible(showit);
         qtIconToolbar->setVisible(showit);
 	}
-//	menuBar()->setVisible(showit);
-    menuBar()->setVisible(false);
+    menuBar()->setVisible(showit);
+//    menuBar()->setVisible(false);
 
 	if (toggle_minimize) {
 		if (! showit) {
@@ -3401,10 +3401,11 @@ void MainWindow::updateChatBar() {
 		if (!g.s.bChatBarUseSelection || !c) // If no channel selected fallback to current one
 			c = ClientUser::get(g.uiSession)->cChannel;
 
-		qteChat->setDefaultText(tr("<center>Type message to channel '%1' here</center>").arg(c->qsName.toHtmlEscaped()));
-	} else {
+        qteChat->setDefaultText(tr("<center>Type message to channel '%1' here</center>").arg(c->qsName.toHtmlEscaped()));
+//        qteChat->setDefaultText(tr("").arg(p->qsName.toHtmlEscaped()));
+    } else {
 		// User target
-		qteChat->setDefaultText(tr("<center>Type message to user '%1' here</center>").arg(p->qsName.toHtmlEscaped()));
+        qteChat->setDefaultText(tr("<center>Type message to user '%1' here</center>").arg(p->qsName.toHtmlEscaped()));
 	}
 
 	updateMenuPermissions();

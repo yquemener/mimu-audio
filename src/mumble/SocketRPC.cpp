@@ -41,6 +41,40 @@ void SocketRPCClient::error(QLocalSocket::LocalSocketError) {
 }
 
 void SocketRPCClient::readyRead() {
+    char buf[256];
+    qlsSocket->read(buf, 255);
+    printf("Received: %s\n", buf);
+
+    size_t pos = 0;
+    std::string token;
+    std::string cmd(buf);
+    std::vector<std::string> tokens;
+    while ((pos = cmd.find(" ")) != std::string::npos) {
+        token = cmd.substr(0, pos);
+        std::cout << token << std::endl;
+        tokens.push_back(token);
+        cmd.erase(0, pos + 1);
+    }
+    tokens.push_back(cmd);
+    if(tokens.size()==0) return;
+    if(tokens[0].compare("show")==0){
+        g.mw->activateWindow();
+        g.mw->show();
+        g.mw->setFocus();
+        g.mw->qteChat->setFocus();
+        g.mw->qteChat->grabKeyboard();
+    }else if(tokens[0].compare("hide")==0){
+        g.mw->hide();
+    }else if(tokens[0].compare("geom")==0){
+        if(tokens.size()<5)
+            return;
+        int x = std::stoi(tokens[1]);
+        int y = std::stoi(tokens[2]);
+        g.mw->move(x,y);
+    }
+
+
+    /*
 	forever {
 		switch (qxsrReader.readNext()) {
 			case QXmlStreamReader::Invalid: {
@@ -71,7 +105,7 @@ void SocketRPCClient::readyRead() {
 				qxswWriter.writeCurrentToken(qxsrReader);
 				break;
 		}
-	}
+    }*/
 }
 
 void SocketRPCClient::processXml() {
@@ -102,30 +136,52 @@ void SocketRPCClient::processXml() {
 		if (iter != qmRequest.constEnd())
 			qmReply.insert(iter.key(), iter.value());
 
-		if (request.nodeName() == QLatin1String("focus")) {
-			g.mw->show();
-			g.mw->raise();
-			g.mw->activateWindow();
+        if (request.nodeName() == QLatin1String("focus")) {
+            g.mw->show();
+            g.mw->raise();
+            g.mw->activateWindow();
 
-			ack = true;
-		} else if (request.nodeName() == QLatin1String("self")) {
-			iter = qmRequest.find(QLatin1String("mute"));
-			if (iter != qmRequest.constEnd()) {
-				bool set = iter.value().toBool();
-				if (set != g.s.bMute) {
-					g.mw->qaAudioMute->setChecked(! set);
-					g.mw->qaAudioMute->trigger();
-				}
-			}
-			iter = qmRequest.find(QLatin1String("unmute"));
-			if (iter != qmRequest.constEnd()) {
-				bool set = iter.value().toBool();
-				if (set == g.s.bMute) {
-					g.mw->qaAudioMute->setChecked(set);
-					g.mw->qaAudioMute->trigger();
-				}
-			}
-			iter = qmRequest.find(QLatin1String("togglemute"));
+            ack = true;
+        } else if (request.nodeName() == QLatin1String("self")) {
+            iter = qmRequest.find(QLatin1String("mute"));
+            if (iter != qmRequest.constEnd()) {
+                bool set = iter.value().toBool();
+                if (set != g.s.bMute) {
+                    g.mw->qaAudioMute->setChecked(! set);
+                    g.mw->qaAudioMute->trigger();
+                }
+            }
+            iter = qmRequest.find(QLatin1String("hide"));
+            if (iter != qmRequest.constEnd()) {
+                 g.mw->hide();
+            }
+            iter = qmRequest.find(QLatin1String("show"));
+            if (iter != qmRequest.constEnd()) {
+                 //g.mw->setWindowFlags(Qt::WindowStaysOnTopHint);
+                 g.mw->activateWindow();
+                 g.mw->show();
+                 g.mw->setFocus();
+                 g.mw->qteChat->setFocus();
+                 g.mw->qteChat->grabKeyboard();
+            }
+            iter = qmRequest.find(QLatin1String("unmute"));
+            if (iter != qmRequest.constEnd()) {
+                bool set = iter.value().toBool();
+                if (set == g.s.bMute) {
+                    g.mw->qaAudioMute->setChecked(set);
+                    g.mw->qaAudioMute->trigger();
+                }
+            }
+            iter = qmRequest.find(QLatin1String("geom"));
+            if (iter != qmRequest.constEnd()) {
+                iter = qmRequest.find(QLatin1String("geom"));
+                bool set = iter.value().toBool();
+                if (set == g.s.bMute) {
+                    g.mw->qaAudioMute->setChecked(set);
+                    g.mw->qaAudioMute->trigger();
+                }
+            }
+            iter = qmRequest.find(QLatin1String("togglemute"));
 			if (iter != qmRequest.constEnd()) {
 				bool set = iter.value().toBool();
 				if (set == g.s.bMute) {
@@ -291,7 +347,8 @@ bool SocketRPC::send(const QString &basename, const QString &request, const QMap
 		return false;
 	}
 
-	QDomDocument requestdoc;
+    // Overthinking much, aren't we?
+    /*QDomDocument requestdoc;
 	QDomElement req = requestdoc.createElement(request);
 	for (QMap<QString, QVariant>::const_iterator iter = param.constBegin(); iter != param.constEnd(); ++iter) {
 		QDomElement elem = requestdoc.createElement(iter.key());
@@ -299,10 +356,14 @@ bool SocketRPC::send(const QString &basename, const QString &request, const QMap
 		elem.appendChild(text);
 		req.appendChild(elem);
 	}
-	requestdoc.appendChild(req);
+    requestdoc.appendChild(req);
 
-	qls.write(requestdoc.toByteArray());
-	qls.flush();
+    qls.write(requestdoc.toByteArray());*/
+    qls.write(request.toLatin1());
+    printf("%s\n",request.toStdString().c_str());
+    fflush(stdout);
+    qls.flush();
+    return true;
 
 	if (! qls.waitForReadyRead(2000)) {
 		return false;
