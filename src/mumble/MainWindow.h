@@ -180,6 +180,8 @@ class MainWindow : public QMainWindow, public MessageHandler, public Ui::MainWin
 		Channel* getContextMenuChannel();
 		ClientUser* getContextMenuUser();
 
+        void focusOutEvent(QFocusEvent* event);
+
 	public slots:
 		void on_qmServer_aboutToShow();
 		void on_qaServerConnect_triggered(bool autoconnect = false);
@@ -335,7 +337,9 @@ class MainWindow : public QMainWindow, public MessageHandler, public Ui::MainWin
 		///
 		/// @param actionName  The name of the action that has been executed.
 		/// @param p  The user on which the action was performed.
-		void logChangeNotPermanent(const QString &actionName, ClientUser * const p) const;
+        void logChangeNotPermanent(const QString &actionName, ClientUser * const p) const;
+protected slots:
+        void onFocusLost(Qt::ApplicationState state);
 };
 
 #endif

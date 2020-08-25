@@ -65,6 +65,19 @@ void SocketRPCClient::readyRead() {
         g.mw->qteChat->grabKeyboard();
     }else if(tokens[0].compare("hide")==0){
         g.mw->hide();
+    }else if(tokens[0].compare("quit")==0){
+        qApp->exit(0);
+    }else if(tokens[0].compare("togglevisible")==0){
+        if(g.mw->isVisible()){
+            g.mw->hide();
+        }
+        else{
+            g.mw->activateWindow();
+            g.mw->show();
+            g.mw->setFocus();
+            g.mw->qteChat->setFocus();
+            g.mw->qteChat->grabKeyboard();
+        }
     }else if(tokens[0].compare("geom")==0){
         if(tokens.size()<5)
             return;

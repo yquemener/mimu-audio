@@ -187,6 +187,8 @@ MainWindow::MainWindow(QWidget *p) : QMainWindow(p) {
 	setOnTop(g.s.aotbAlwaysOnTop == Settings::OnTopAlways ||
 	         (g.s.bMinimalView && g.s.aotbAlwaysOnTop == Settings::OnTopInMinimal) ||
              (!g.s.bMinimalView && g.s.aotbAlwaysOnTop == Settings::OnTopInNormal));
+
+    connect(qApp, SIGNAL(applicationStateChanged(Qt::ApplicationState)), this, SLOT(onFocusLost(Qt::ApplicationState)));
 }
 
 void MainWindow::createActions() {
@@ -553,7 +555,9 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
 	// a keyboard.
 	if (e->key() == Qt::Key_F6) {
 		focusNextMainWidget();
-	} else {
+    } else if (e->key() == Qt::Key_Escape) {
+        hide();
+    }else {
 		QMainWindow::keyPressEvent(e);
 	}
 }
@@ -669,7 +673,32 @@ ClientUser *MainWindow::getContextMenuUser() {
 	if (cuContextUser)
 		return cuContextUser.data();
 
-	return nullptr;
+    return nullptr;
+}
+
+void MainWindow::focusOutEvent(QFocusEvent *event)
+{
+    printf("Focus went out\n");
+}
+
+void MainWindow::onFocusLost(Qt::ApplicationState state){
+    switch(state){
+    case Qt::ApplicationState::ApplicationActive:
+        printf("ApplicationActive\n");
+        break;
+    case Qt::ApplicationState::ApplicationHidden:
+        printf("ApplicationHidden\n");
+        break;
+    case Qt::ApplicationState::ApplicationSuspended:
+        printf("ApplicationSuspended\n");
+        break;
+    case Qt::ApplicationState::ApplicationInactive:
+        printf("ApplicationInactive\n");
+        g.mw->hide();
+        break;
+    default:
+        break;
+    }
 }
 
 bool MainWindow::handleSpecialContextMenu(const QUrl &url, const QPoint &pos_, bool focus) {
@@ -1120,8 +1149,8 @@ void MainWindow::setupView(bool toggle_minimize) {
 		qdwChat->setVisible(showit);
         qtIconToolbar->setVisible(showit);
 	}
-    menuBar()->setVisible(showit);
-//    menuBar()->setVisible(false);
+//    menuBar()->setVisible(showit);
+    menuBar()->setVisible(false);
 
 	if (toggle_minimize) {
 		if (! showit) {
@@ -1141,6 +1170,7 @@ void MainWindow::setupView(bool toggle_minimize) {
 		       geometry().height()-newgeom.height()+geom.height());
 		move(geom.x(), geom.y());
 	}
+    hide();
 
 	// Display the Transmit Mode Dropdown, if configured to do so, otherwise
 	// hide it.
@@ -1152,8 +1182,8 @@ void MainWindow::setupView(bool toggle_minimize) {
 		qaTransmitModeSeparator->setVisible(false);
 	}
 
-	show();
-	activateWindow();
+    show();
+    activateWindow();
 
 	// If activated show the PTT window
 	if (g.s.bShowPTTButtonWindow && g.s.atTransmit == Settings::PushToTalk) {
