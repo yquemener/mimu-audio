@@ -42,7 +42,8 @@ void SocketRPCClient::error(QLocalSocket::LocalSocketError) {
 
 void SocketRPCClient::readyRead() {
     char buf[256];
-    qlsSocket->read(buf, 255);
+    int read = qlsSocket->read(buf, 255);
+    buf[read]='\0';
     printf("Received: %s\n", buf);
 
     size_t pos = 0;
