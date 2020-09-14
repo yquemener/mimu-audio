@@ -77,7 +77,7 @@
 #include <QtWidgets/QToolTip>
 #include <QtWidgets/QWhatsThis>
 
-#define DEV_UI
+//#define DEV_UI
 
 #ifdef Q_OS_WIN
 # include <dbt.h>
