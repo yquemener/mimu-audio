@@ -77,6 +77,8 @@
 #include <QtWidgets/QToolTip>
 #include <QtWidgets/QWhatsThis>
 
+#define DEV_UI
+
 #ifdef Q_OS_WIN
 # include <dbt.h>
 #endif
@@ -189,6 +191,7 @@ MainWindow::MainWindow(QWidget *p) : QMainWindow(p) {
              (!g.s.bMinimalView && g.s.aotbAlwaysOnTop == Settings::OnTopInNormal));
 
     connect(qApp, SIGNAL(applicationStateChanged(Qt::ApplicationState)), this, SLOT(onFocusLost(Qt::ApplicationState)));
+    //qaConfigMinimal->trigger();
 }
 
 void MainWindow::createActions() {
@@ -682,6 +685,9 @@ void MainWindow::focusOutEvent(QFocusEvent *event)
 }
 
 void MainWindow::onFocusLost(Qt::ApplicationState state){
+#ifdef DEV_UI
+    return;
+#endif
     switch(state){
     case Qt::ApplicationState::ApplicationActive:
         printf("ApplicationActive\n");
@@ -1149,8 +1155,11 @@ void MainWindow::setupView(bool toggle_minimize) {
 		qdwChat->setVisible(showit);
         qtIconToolbar->setVisible(showit);
 	}
-//    menuBar()->setVisible(showit);
+#ifdef DEV_UI
+    menuBar()->setVisible(showit);
+#else
     menuBar()->setVisible(false);
+#endif
 
 	if (toggle_minimize) {
 		if (! showit) {

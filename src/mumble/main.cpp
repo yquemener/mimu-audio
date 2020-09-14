@@ -259,7 +259,7 @@ int main(int argc, char **argv) {
 			} else if (args.at(i) == QLatin1String("rpc")) {
 				bRpcMode = true;
 				if (args.count() - 1 > i) {
-                    rpcCommand = args.mid(i + 1).join(" ");
+                    rpcCommand = args.mid(i + 1).join(QString::fromLatin1(" "));
 				}
 				else {
 					QString rpcError = MainWindow::tr("Error: No RPC command specified");

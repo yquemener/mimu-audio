@@ -52,7 +52,7 @@ void SocketRPCClient::readyRead() {
     std::vector<std::string> tokens;
     while ((pos = cmd.find(" ")) != std::string::npos) {
         token = cmd.substr(0, pos);
-        std::cout << token << std::endl;
+        printf("%s\n", token.c_str());
         tokens.push_back(token);
         cmd.erase(0, pos + 1);
     }
